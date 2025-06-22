@@ -10,27 +10,27 @@ document.addEventListener("DOMContentLoaded", function () {
     // Retrieve and trim the input value
     const taskText = taskInput.value.trim();
 
-    // Check if the input is not empty
+    // Check if taskText is not empty
     if (taskText === "") {
       alert("Please enter a task!");
       return;
     }
 
-    // Create a new list item (li) element
+    // Create a new li element
     const li = document.createElement("li");
     li.textContent = taskText;
 
-    // Create a remove button for the task
+    // Create a new remove button
     const removeButton = document.createElement("button");
     removeButton.textContent = "Remove";
-    removeButton.className = "remove-btn";
+    removeButton.classList.add("remove-btn"); // Use classList.add
 
-    // Set up the click event for removing the task
+    // Assign onclick event to remove the li element
     removeButton.onclick = function () {
       taskList.removeChild(li);
     };
 
-    // Append the remove button to the li element
+    // Append the remove button to the li
     li.appendChild(removeButton);
 
     // Append the li to the task list
@@ -40,10 +40,10 @@ document.addEventListener("DOMContentLoaded", function () {
     taskInput.value = "";
   }
 
-  // Event listener for add button click
+  // Attach event listener to the Add Task button
   addButton.addEventListener("click", addTask);
 
-  // Event listener for pressing Enter in the input field
+  // Attach event listener to allow adding task with Enter key
   taskInput.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       addTask();
