@@ -1,110 +1,52 @@
-// Setup Event Listener for Page Load
+// Wait for the DOM to fully load before running the script
 document.addEventListener("DOMContentLoaded", function () {
-  // Select DOM Elements
+  // Select DOM elements
   const addButton = document.getElementById("add-task-btn");
   const taskInput = document.getElementById("task-input");
   const taskList = document.getElementById("task-list");
 
-  // Show empty state initially
-  showEmptyState();
-
-  // Create the addTask Function
+  // Function to add a task
   function addTask() {
-    // Retrieve and trim the value from the task input field
+    // Retrieve and trim the input value
     const taskText = taskInput.value.trim();
 
-    // Check if taskText is not empty
+    // Check if the input is not empty
     if (taskText === "") {
       alert("Please enter a task!");
-      taskInput.focus();
       return;
     }
 
-    // Remove empty state if it exists
-    removeEmptyState();
-
-    // Create a new li element
+    // Create a new list item (li) element
     const li = document.createElement("li");
+    li.textContent = taskText;
 
-    // Create task text span
-    const taskSpan = document.createElement("span");
-    taskSpan.className = "task-text";
-    taskSpan.textContent = taskText;
-
-    // Create a new button element for removing the task
+    // Create a remove button for the task
     const removeButton = document.createElement("button");
     removeButton.textContent = "Remove";
     removeButton.className = "remove-btn";
 
-    // Assign an onclick event to the remove button
+    // Set up the click event for removing the task
     removeButton.onclick = function () {
-      // Add removal animation
-      li.style.animation = "taskSlideOut 0.3s ease-in forwards";
-
-      setTimeout(() => {
-        taskList.removeChild(li);
-        // Show empty state if no tasks remain
-        if (taskList.children.length === 0) {
-          showEmptyState();
-        }
-      }, 300);
+      taskList.removeChild(li);
     };
 
-    // Append elements
-    li.appendChild(taskSpan);
+    // Append the remove button to the li element
     li.appendChild(removeButton);
+
+    // Append the li to the task list
     taskList.appendChild(li);
 
-    // Clear the task input field
+    // Clear the input field
     taskInput.value = "";
-    taskInput.focus();
   }
 
-  // Function to show empty state
-  function showEmptyState() {
-    if (taskList.children.length === 0) {
-      const emptyDiv = document.createElement("div");
-      emptyDiv.className = "empty-state";
-      emptyDiv.innerHTML = "📝 No tasks yet!<br>Add your first task above.";
-      taskList.appendChild(emptyDiv);
-    }
-  }
-
-  // Function to remove empty state
-  function removeEmptyState() {
-    const emptyState = taskList.querySelector(".empty-state");
-    if (emptyState) {
-      taskList.removeChild(emptyState);
-    }
-  }
-
-  // Attach Event Listeners
-  // Add event listener to addButton
+  // Event listener for add button click
   addButton.addEventListener("click", addTask);
 
-  // Add event listener to taskInput for 'keypress' event
+  // Event listener for pressing Enter in the input field
   taskInput.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       addTask();
     }
   });
-
-  // Focus on input field when page loads
-  taskInput.focus();
 });
-
-// Add CSS animation for task removal
-const style = document.createElement("style");
-style.textContent = `
-    @keyframes taskSlideOut {
-        from {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        to {
-            opacity: 0;
-            transform: translateX(-100%);
-        }
-    }
-`;
-document.head.appendChild(style);
